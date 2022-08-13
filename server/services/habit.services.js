@@ -73,7 +73,7 @@ const updateOneHabit = async (habitId, userId, body) => {
       result.message = "User not found!";
     }
     //check habit user matches login user
-    if (habit.user.toString() !== userId) {
+    if (habit.user.toString() !== user.id) {
       result.status = 401;
       result.message = "User not authorized";
     }

@@ -14,7 +14,9 @@ const {
 const getHabits = async (req, res) => {
   const user = req.user.id;
   const result = await getAllHabits(user);
-  res.status(result.status).json(result);
+  res
+    .status(result.status)
+    .json({ message: result.message, data: result.data });
 };
 
 // @desc Set a habit
@@ -39,7 +41,9 @@ const setHabit = async (req, res) => {
     );
 
     if (result.status === 200) {
-      res.status(result.status).json(result);
+      res
+        .status(result.status)
+        .json({ message: result.message, data: result.data });
     } else {
       res.status(result.status);
       throw new Error(result.message);
@@ -59,7 +63,9 @@ const updateHabit = async (req, res) => {
   const result = await updateOneHabit(habitId, userId, body);
 
   if (result.status === 200) {
-    res.status(result.status).json(result);
+    res
+      .status(result.status)
+      .json({ message: result.message, data: result.data });
   } else {
     res.status(result.status);
     throw new Error(result.message);
@@ -77,7 +83,9 @@ const deleteHabit = async (req, res) => {
   const result = await deleteOneHabit(habitId, userId);
 
   if (result.status === 200) {
-    res.status(result.status).json(result);
+    res
+      .status(result.status)
+      .json({ message: result.message, data: result.data });
   } else {
     res.status(result.status);
     throw new Error(result.message);
