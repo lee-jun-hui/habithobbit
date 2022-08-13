@@ -14,6 +14,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/v1/habits", require("./routes/habit.routes"));
+app.use("/api/v1/users", require("./routes/user.routes"));
 
 app.use(errorHandler);
 

@@ -1,63 +1,88 @@
-const asyncHandler = require("express-async-handler");
-const Habit = require("../models/habit.model");
+const express = require("express");
 
-// @desc GET HABITS
+const {
+  getAllHabits,
+  createOneHabit,
+  updateOneHabit,
+  deleteOneHabit,
+} = require("../services/habit.services");
+
+// @desc Get all habits of a user
 // @route GET /api/v1/habits
 // @acess Private
 
-const getHabits = asyncHandler(async (req, res) => {
-  const habits = await Habit.find();
-  res.status(200).json(habits);
-});
+const getHabits = async (req, res) => {
+  const user = req.user.id;
+  const result = await getAllHabits(user);
+  res.status(result.status).json(result);
+};
 
-// @desc SET HABIT
+// @desc Set a habit
 // @route POST /api/v1/habits
 // @acess Private
 
-const setHabit = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  if (req.body.name.length < 1) {
-    res.status(400);
-    throw new Error("please add a habit name");
+const setHabit = async (req, res) => {
+  const user = req.user.id;
+  const { name, description, frequency, endDate } = req.body;
+
+  if (!name || !frequency || !endDate) {
+    res
+      .status(400)
+      .json({ message: "Name,Frequency and End Date cannot be empty" });
+  } else {
+    const result = await createOneHabit(
+      user,
+      name,
+      description,
+      frequency,
+      endDate
+    );
+
+    if (result.status === 200) {
+      res.status(result.status).json(result);
+    } else {
+      res.status(result.status);
+      throw new Error(result.message);
+    }
   }
-  const habit = await Habit.create({
-    name: req.body.name,
-    description: req.body.description,
-    frequency: req.body.frequency,
-    endDate: req.body.endDate,
-  });
-  res.status(200).json(habit);
-});
+};
 
-// @desc DELETE HABIT
-// @route DELETE /api/v1/habits/:id
-// @acess Private
-
-const deleteHabit = asyncHandler(async (req, res) => {
-  const habit = await Habit.findById(req.params.id);
-  if (!habit) {
-    res.status(400);
-    throw new Error("Habit not found");
-  }
-  await habit.remove();
-  res.status(200).json({ message: `DELETE habit ${req.params.id}` });
-});
-
-// @desc UPDATE HABIT
+// @desc Update a habit
 // @route PUT /api/v1/habits/:id
 // @acess Private
 
-const updateHabit = asyncHandler(async (req, res) => {
-  const habit = await Habit.findById(req.params.id);
-  if (!habit) {
-    res.status(400);
-    throw new Error("Habit not found!");
+const updateHabit = async (req, res) => {
+  const habitId = req.params.id;
+  const userId = req.user.id;
+  const body = req.body;
+
+  const result = await updateOneHabit(habitId, userId, body);
+
+  if (result.status === 200) {
+    res.status(result.status).json(result);
+  } else {
+    res.status(result.status);
+    throw new Error(result.message);
   }
-  const updateHabit = await Habit.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
-  res.status(200).json(updateHabit);
-});
+};
+
+// @desc Delete a habit
+// @route DELETE /api/v1/habits/:id
+// @acess Private
+
+const deleteHabit = async (req, res) => {
+  const habitId = req.params.id;
+  const userId = req.user.id;
+
+  const result = await deleteOneHabit(habitId, userId);
+
+  if (result.status === 200) {
+    res.status(result.status).json(result);
+  } else {
+    res.status(result.status);
+    throw new Error(result.message);
+  }
+};
 
 module.exports = {
   getHabits,
