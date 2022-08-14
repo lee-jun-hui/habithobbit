@@ -14,23 +14,18 @@ const {
 // @route POST  /api/v1/users
 // @access Public
 
-const registerUser = async (req, res) => {
+const registerUser = async (req, res, next) => {
   const { username, email, password } = req.body;
-  if (!username || !email || !password) {
-    res.status(400);
-    throw new Error("Please enter all fields");
-  }
-  const result = await registerOneUser(username, email, password);
 
-  if (result.status === 201) {
-    res.status(result.status).json({
-      message: result.message,
-      token: result.token,
-      data: result.data,
-    });
-  } else {
-    res.status(result.status);
-    throw new Error(result.message);
+  try {
+    const result = await registerOneUser(username, email, password);
+    res.status(201).json(result);
+  } catch (error) {
+    if (error.message === "userExists") {
+      next({ status: 400, message: "user already exists" });
+    } else {
+      next();
+    }
   }
 };
 
@@ -38,19 +33,21 @@ const registerUser = async (req, res) => {
 // @route POST  /api/v1/users/login
 // @access Public
 
-const loginUser = async (req, res) => {
+const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
-
-  const result = await loginOneUser(email, password);
-  if (result.status === 200) {
-    res.status(result.status).json({
-      message: result.message,
-      token: result.token,
-      data: result.data,
-    });
-  } else {
-    res.status(result.status);
-    throw new Error(result.message);
+  try {
+    const result = await loginOneUser(email, password);
+    if (result) {
+      res.status(200).json(result);
+    }
+  } catch (error) {
+    if (error.message === "notFound") {
+      next({ status: 404, message: "user not found" });
+    } else if (error.message === "wrongPw") {
+      next({ status: 400, message: "incorrect password" });
+    } else {
+      next();
+    }
   }
 };
 
@@ -58,18 +55,13 @@ const loginUser = async (req, res) => {
 // @route GET  /api/v1/users/profile
 // @access Private
 
-const getProfile = async (req, res) => {
+const getProfile = async (req, res, next) => {
   const user = req.user.id;
-  const result = await getUserProfile(user);
-  if (result.status === 200) {
-    res.status(result.status).json({
-      message: result.message,
-      token: result.token,
-      data: result.data,
-    });
-  } else {
-    res.status(result.status);
-    throw new Error(result.message);
+  try {
+    const result = await getUserProfile(user);
+    res.status(200).json(result);
+  } catch (error) {
+    next();
   }
 };
 

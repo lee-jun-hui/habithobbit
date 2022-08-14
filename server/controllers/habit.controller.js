@@ -11,27 +11,24 @@ const {
 // @route GET /api/v1/habits
 // @acess Private
 
-const getHabits = async (req, res) => {
+const getHabits = async (req, res, next) => {
   const user = req.user.id;
-  const result = await getAllHabits(user);
-  res
-    .status(result.status)
-    .json({ message: result.message, data: result.data });
+  try {
+    const result = await getAllHabits(user);
+    res.status(200).json(result);
+  } catch (error) {
+    next();
+  }
 };
 
 // @desc Set a habit
 // @route POST /api/v1/habits
 // @acess Private
 
-const setHabit = async (req, res) => {
+const setHabit = async (req, res, next) => {
   const user = req.user.id;
-  const { name, description, frequency, endDate } = req.body;
-
-  if (!name || !frequency || !endDate) {
-    res
-      .status(400)
-      .json({ message: "Name,Frequency and End Date cannot be empty" });
-  } else {
+  try {
+    const { name, description, frequency, endDate } = req.body;
     const result = await createOneHabit(
       user,
       name,
@@ -39,15 +36,9 @@ const setHabit = async (req, res) => {
       frequency,
       endDate
     );
-
-    if (result.status === 200) {
-      res
-        .status(result.status)
-        .json({ message: result.message, data: result.data });
-    } else {
-      res.status(result.status);
-      throw new Error(result.message);
-    }
+    res.status(201).json(result);
+  } catch (error) {
+    next();
   }
 };
 
@@ -55,20 +46,26 @@ const setHabit = async (req, res) => {
 // @route PUT /api/v1/habits/:id
 // @acess Private
 
-const updateHabit = async (req, res) => {
+const updateHabit = async (req, res, next) => {
   const habitId = req.params.id;
   const userId = req.user.id;
   const body = req.body;
 
-  const result = await updateOneHabit(habitId, userId, body);
-
-  if (result.status === 200) {
-    res
-      .status(result.status)
-      .json({ message: result.message, data: result.data });
-  } else {
-    res.status(result.status);
-    throw new Error(result.message);
+  try {
+    const result = await updateOneHabit(habitId, userId, body);
+    if (result) {
+      res.status(200).json(result);
+    }
+  } catch (error) {
+    if (error.message === "habitNotFound") {
+      next({ status: 404, message: "Habit not found" });
+    } else if (error.messsage === "userNotFound") {
+      next({ status: 404, message: "User not found" });
+    } else if (error.message === "userUnauthorized") {
+      next({ status: 401, message: "Habit doesn't belong to User" });
+    } else {
+      next();
+    }
   }
 };
 
@@ -76,19 +73,23 @@ const updateHabit = async (req, res) => {
 // @route DELETE /api/v1/habits/:id
 // @acess Private
 
-const deleteHabit = async (req, res) => {
+const deleteHabit = async (req, res, next) => {
   const habitId = req.params.id;
   const userId = req.user.id;
 
-  const result = await deleteOneHabit(habitId, userId);
-
-  if (result.status === 200) {
-    res
-      .status(result.status)
-      .json({ message: result.message, data: result.data });
-  } else {
-    res.status(result.status);
-    throw new Error(result.message);
+  try {
+    const result = await deleteOneHabit(habitId, userId);
+    res.status(200).json(result);
+  } catch (error) {
+    if (error.message === "habitNotFound") {
+      next({ status: 404, message: "Habit not found" });
+    } else if (error.messsage === "userNotFound") {
+      next({ status: 404, message: "User not found" });
+    } else if (error.message === "userUnauthorized") {
+      next({ status: 401, message: "Habit doesn't belong to User" });
+    } else {
+      next();
+    }
   }
 };
 

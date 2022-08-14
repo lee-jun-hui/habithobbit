@@ -9,14 +9,14 @@ const habitSchema = mongoose.Schema(
     },
     name: {
       type: String,
-      require: true,
+      required: true,
     },
     description: {
       type: String,
     },
     frequency: [
       {
-        repeat: { type: String },
+        repeat: { type: String, enum: ["daily", "weekly"] },
         mon: { type: Boolean },
         tues: { type: Boolean },
         wed: { type: Boolean },
