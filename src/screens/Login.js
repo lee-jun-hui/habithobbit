@@ -11,7 +11,6 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const [userInfo, setUserInfo] = useState({});
 
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
@@ -22,8 +21,7 @@ const Login = () => {
         loginCredentials
       );
       let userData = response.data.data;
-      setUserInfo(userData);
-      saveUser(JSON.stringify(userInfo));
+      saveUser(JSON.stringify(userData));
       setIsLoggedIn(true);
     } catch (error) {
       console.log("login error", error);

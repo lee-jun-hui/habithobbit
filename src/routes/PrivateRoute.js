@@ -1,14 +1,17 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
 import Dashboard from "../screens/Dashboard";
+import HabitOverview from "../screens/HabitOverview";
 
-const Stack = createStackNavigator();
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+const Tab = createBottomTabNavigator();
 
 const PrivateRoute = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Dashboard" component={Dashboard} />
-    </Stack.Navigator>
+    <Tab.Navigator>
+      <Tab.Screen name="Dashboard" component={Dashboard} />
+      <Tab.Screen name="Habits" component={HabitOverview} />
+    </Tab.Navigator>
   );
 };
 
