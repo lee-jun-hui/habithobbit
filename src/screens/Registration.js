@@ -30,6 +30,7 @@ const Registration = ({ navigation }) => {
         ]);
       }
     } catch (error) {
+      setIsLoading(false);
       if (error.response.status === 400) {
         Alert.alert("User already exists!");
       }
