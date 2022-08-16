@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { TextInput, Button } from "react-native-paper";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
+import Spinner from "react-native-loading-spinner-overlay";
 
 import { saveUser, getUser } from "../utils/securestore.utils";
 
@@ -13,8 +14,11 @@ const Login = () => {
   });
 
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const login = async (loginCredentials) => {
+    setIsLoading(true);
+
     try {
       const response = await axios.post(
         "https://habithobbit-server.herokuapp.com/api/v1/users/login",
@@ -23,13 +27,17 @@ const Login = () => {
       let userData = response.data.data;
       saveUser(JSON.stringify(userData));
       setIsLoggedIn(true);
+      setIsLoading(false);
     } catch (error) {
-      console.log("login error", error);
+      setIsLoading(false);
+      setIsLoggedIn(false);
+      Alert.alert(`${error.response.data.message}`);
     }
   };
 
   return (
     <SafeAreaView>
+      <Spinner visible={isLoading} />
       <TextInput
         placeholder="Email"
         value={loginCredentials.email}

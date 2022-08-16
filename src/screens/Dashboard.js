@@ -8,7 +8,7 @@ const Dashboard = () => {
   const { setIsLoggedIn } = useContext(AuthContext);
 
   const logout = async () => {
-    await removeUser;
+    await removeUser();
     setIsLoggedIn(false);
   };
 
