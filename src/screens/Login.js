@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { TextInput, Button } from "react-native-paper";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
-import Spinner from "react-native-loading-spinner-overlay";
+import AnimatedLoader from "../components/AnimatedLoader";
 
 import { saveUser, getUser } from "../utils/securestore.utils";
 
@@ -13,8 +13,8 @@ const Login = () => {
     password: "",
   });
 
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoggedIn, setIsLoggedIn, isLoading, setIsLoading } =
+    useContext(AuthContext);
 
   const login = async (loginCredentials) => {
     setIsLoading(true);
@@ -36,8 +36,7 @@ const Login = () => {
   };
 
   return (
-    <SafeAreaView>
-      <Spinner visible={isLoading} />
+    <SafeAreaView style={{ flex: 1 }}>
       <TextInput
         placeholder="Email"
         value={loginCredentials.email}
@@ -63,6 +62,7 @@ const Login = () => {
       >
         Login
       </Button>
+      {isLoading ? <AnimatedLoader text="Logging in..." /> : null}
     </SafeAreaView>
   );
 };
