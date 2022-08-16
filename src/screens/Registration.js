@@ -1,8 +1,10 @@
 import { Alert, SafeAreaView } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { TextInput, Button } from "react-native-paper";
 import axios from "axios";
 import Spinner from "react-native-loading-spinner-overlay";
+import AnimatedLoader from "../components/AnimatedLoader";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Registration = ({ navigation }) => {
   const [user, setUser] = useState({
@@ -10,7 +12,7 @@ const Registration = ({ navigation }) => {
     email: "",
     password: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, setIsLoading } = useContext(AuthContext);
 
   const registerUser = async () => {
     //using Axios
@@ -38,8 +40,7 @@ const Registration = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView>
-      <Spinner visible={isLoading} />
+    <SafeAreaView style={{ flex: 1 }}>
       <TextInput
         placeholder="Username"
         value={user.username}
@@ -72,6 +73,7 @@ const Registration = ({ navigation }) => {
       <Button mode="text" onPress={() => navigation.navigate("Login")}>
         Login
       </Button>
+      {isLoading ? <AnimatedLoader text="Registering..." /> : null}
     </SafeAreaView>
   );
 };
