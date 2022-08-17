@@ -1,13 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Dashboard from './src/screens/Dashboard';
-import { NavigationContainer } from '@react-navigation/native';
-import DashboardTab from './src/routes/DashboardTab'
+import RootNavigation from "./src/routes/RootNavigation";
+import React from "react";
+import { name as appName } from "./app.json";
+import { AppRegistry } from "react-native";
+import { AuthProvider } from "./src/contexts/AuthContext";
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <DashboardTab/>
-    </NavigationContainer>
+    <AuthProvider>
+      <RootNavigation />
+    </AuthProvider>
   );
 }
+
+AppRegistry.registerComponent(appName, () => App);
+
