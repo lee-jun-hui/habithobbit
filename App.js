@@ -1,19 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native';
-import CreateHabit from './src/screens/CreateHabit';
+import RootNavigation from "./src/routes/RootNavigation";
+import React from "react";
+import { name as appName } from "./app.json";
+import { AppRegistry } from "react-native";
+import { AuthProvider } from "./src/contexts/AuthContext";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <CreateHabit />
-    </View>
+    <AuthProvider>
+      <RootNavigation />
+    </AuthProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+AppRegistry.registerComponent(appName, () => App);
