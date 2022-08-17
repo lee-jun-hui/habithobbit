@@ -1,63 +1,44 @@
 import { Alert, SafeAreaView } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
-// import { TextInput, Button } from "react-native-paper";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
 import AnimatedLoader from "../components/AnimatedLoader";
 
 import { saveUser, getUser } from "../utils/securestore.utils";
 
-import { theme } from '../core/theme'
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
-import { Text } from 'react-native-paper'
-import { emailValidator } from '../helpers/emailValidator'
-import { passwordValidator } from '../helpers/passwordValidator'
-import { nameValidator } from '../helpers/nameValidator'
-import Background from '../components/loginBackground'
-import Logo from '../components/loginLogo'
-import Header from '../components/loginHeader'
-import Button from '../components/loginButton'
-import TextInput from '../components/loginTextInput'
-import BackButton from '../components/loginBackButton'
+import { theme } from "../core/theme";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text } from "react-native-paper";
+import { emailValidator } from "../helpers/emailValidator";
+import { passwordValidator } from "../helpers/passwordValidator";
+import { nameValidator } from "../helpers/nameValidator";
+import Background from "../components/loginBackground";
+import Logo from "../components/loginLogo";
+import Header from "../components/loginHeader";
+import Button from "../components/loginButton";
+import TextInput from "../components/loginTextInput";
+import BackButton from "../components/loginBackButton";
 
 const Login = ({ navigation }) => {
   const [loginCredentials, setLoginCredentials] = useState({
     email: "",
     password: "",
   });
-  const [erroremail, seterroremail] = useState({ error: '' })
-  const [errorpass, seterrorpass] = useState({ error: '' })
 
-  const { isLoggedIn, setIsLoggedIn, isLoading, setIsLoading } =
-    useContext(AuthContext);
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    isLoading,
+    setIsLoading,
+    erroremail,
+    seterroremail,
+    errorpass,
+    seterrorpass,
+    authcontext,
+  } = useContext(AuthContext);
 
-  const login = async (loginCredentials) => {
-
-    const emailError = emailValidator(loginCredentials.email)
-    const passwordError = passwordValidator(loginCredentials.password)
-    if (emailError || passwordError) {
-      seterroremail({ ...erroremail, error: emailError })
-      seterrorpass({ ...errorpass, error: passwordError })
-      return
-    }
-
-    setIsLoading(true);
-
-    try {
-      const response = await axios.post(
-        "https://habithobbit-server.herokuapp.com/api/v1/users/login",
-        loginCredentials
-      );
-      let userData = response.data.data;
-      saveUser(JSON.stringify(userData));
-      setIsLoggedIn(true);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      setIsLoggedIn(false);
-      Alert.alert(`${error.response.data.message}`);
-    }
-  };
+  const emailError = emailValidator(loginCredentials.email);
+  const passwordError = passwordValidator(loginCredentials.password);
 
   return (
     <Background>
@@ -94,15 +75,22 @@ const Login = ({ navigation }) => {
       <Button
         mode="contained"
         onPress={() => {
-          login(loginCredentials);
+          if (emailError || passwordError) {
+            seterroremail({ ...erroremail, error: emailError });
+            seterrorpass({ ...errorpass, error: passwordError });
+            return;
+          }
+          authcontext.logIn(loginCredentials);
         }}
       >
         Login
       </Button>
       <View style={styles.row}>
         <Text>Don’t have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Home', { screen: 'Register' })}>
-        {/* <TouchableOpacity onPress={() => navigation.replace('Home', { screen: 'Register' })}> */}
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Home", { screen: "Register" })}
+        >
+          {/* <TouchableOpacity onPress={() => navigation.replace('Home', { screen: 'Register' })}> */}
           <Text style={styles.link}>Sign up</Text>
         </TouchableOpacity>
       </View>
@@ -113,12 +101,12 @@ const Login = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   forgotPassword: {
-    width: '100%',
-    alignItems: 'flex-end',
+    width: "100%",
+    alignItems: "flex-end",
     marginBottom: 24,
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 4,
   },
   forgot: {
@@ -126,9 +114,9 @@ const styles = StyleSheet.create({
     color: theme.colors.secondary,
   },
   link: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: theme.colors.primary,
   },
-})
+});
 
 export default Login;
