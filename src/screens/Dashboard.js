@@ -205,14 +205,14 @@ const styles = StyleSheet.create({
     date: {
         marginTop: 20,
         fontWeight: "400",
-        fontFamily: "Roboto",
+        fontFamily: "roboto-regular",
         fontSize: 12,
         color: "#4E53BA"
     },
     welcome: {
         marginTop: 10,
         marginLeft: 10,
-        fontFamily: "Roboto",
+        fontFamily: "roboto-regular",
         fontSize: 16,
         fontWeight: "200",
         color: "#868AE0"
