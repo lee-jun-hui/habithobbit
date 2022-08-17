@@ -73,7 +73,7 @@ const CreateHabit = () => {
   const createHabit = async () => {
     try {
       const url = "/api/v1/habits";
-      const response = axiosConn.post(url, habitData);
+      const response = await axiosConn.post(url, habitData);
       if (response) {
         Alert.alert("SUCCESS", "Habit created!");
       }
