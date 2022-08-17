@@ -6,6 +6,8 @@ import { AuthContext } from "../contexts/AuthContext";
 import AnimatedLoader from "../components/AnimatedLoader";
 
 import { saveUser, getUser } from "../utils/securestore.utils";
+import ContainedButton from "../components/ContainedButton";
+import Inputbox from "../components/Inputbox";
 
 const Login = () => {
   const [loginCredentials, setLoginCredentials] = useState({
@@ -37,14 +39,14 @@ const Login = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TextInput
+      <Inputbox
         placeholder="Email"
         value={loginCredentials.email}
         onChangeText={(value) =>
           setLoginCredentials((prevlogin) => ({ ...prevlogin, email: value }))
         }
       />
-      <TextInput
+      <Inputbox
         placeholder="Password"
         value={loginCredentials.password}
         onChangeText={(value) =>
@@ -54,14 +56,13 @@ const Login = () => {
           }))
         }
       />
-      <Button
-        mode="contained"
+      <ContainedButton
+        title="LOGIN"
         onPress={() => {
           login(loginCredentials);
         }}
-      >
-        Login
-      </Button>
+      />
+
       {isLoading ? <AnimatedLoader text="Logging in..." /> : null}
     </SafeAreaView>
   );

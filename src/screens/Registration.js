@@ -5,6 +5,7 @@ import axios from "axios";
 import Spinner from "react-native-loading-spinner-overlay";
 import AnimatedLoader from "../components/AnimatedLoader";
 import { AuthContext } from "../contexts/AuthContext";
+import RnPicker from "../components/RnPicker";
 
 const Registration = ({ navigation }) => {
   const [user, setUser] = useState({
@@ -12,6 +13,16 @@ const Registration = ({ navigation }) => {
     email: "",
     password: "",
   });
+
+  const [showPicker, setShowPicker] = useState(false);
+
+  const [selectedRepeat, setSelectedRepeat] = useState("daily");
+
+  const repeatOptions = [
+    { label: "Daily", value: "daily" },
+    { label: "Weekly", value: "weekly" },
+  ];
+
   const { isLoading, setIsLoading } = useContext(AuthContext);
 
   const registerUser = async () => {
@@ -62,6 +73,16 @@ const Registration = ({ navigation }) => {
           setUser((prevUser) => ({ ...prevUser, password: value }))
         }
       />
+      <Button mode="outlined" onPress={() => setShowPicker((prev) => !prev)}>
+        Show Picker
+      </Button>
+      {showPicker ? (
+        <RnPicker
+          selectedValue={selectedRepeat}
+          onValueChange={(itemValue) => setSelectedRepeat(itemValue)}
+          itemsArray={repeatOptions}
+        />
+      ) : null}
       <Button
         mode="contained"
         onPress={() => {
