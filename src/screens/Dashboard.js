@@ -60,6 +60,28 @@ const Dashboard = () => {
     const [selectedDay, setSelectedDay] = useState(new Date().getDay())
     const dayToWeekdayMapping = ["mon", "tues", "wed", "thurs", "fri", "sat", "sun"]
     const { authcontext } = useContext(AuthContext);
+    const [dayNumbers, setDayNumbers] = useState([])
+
+    const updateSelectedDay = (value) => {
+        console.log("enter here: ", value)
+        setSelectedDay(value)
+    }
+
+    useEffect(()=>{
+        let d = new Date().getDay();
+        let dayArray=[];
+        for (let i = 0; i < 6; i++) {
+            if (d <= 6) {
+                dayArray.push(d);
+                d += 1;
+            } else {
+                d = 0
+                dayArray.push(d);
+                d += 1;
+            }
+        }
+        setDayNumbers(dayArray)
+    },[])
 
     useEffect(() => {
         const url = "/api/v1/users/profile";
@@ -100,7 +122,7 @@ const Dashboard = () => {
             }
         };
         fetchData();
-    }, []);
+    },[selectedDay]);
 
     return (
         <View style={{ backgroundColor: "white" }}>
@@ -120,37 +142,37 @@ const Dashboard = () => {
                 </View>
                 <View style={styles.container3}>
                     <View style={styles.box1}>
-                        <TouchableOpacity style={[styles.button, , { backgroundColor: "#868AE0" }]}>
+                        <TouchableOpacity style={[styles.button, , { backgroundColor: "#868AE0" }]} onPress={()=>updateSelectedDay(dayNumbers[0])}>
                             <Text style={[{ color: "#FFFFFF" }, { fontWeight: "300" }]}> {getDayName()[0]} </Text>
                             <Text style={[{ color: "#FFFFFF" }, { fontWeight: "500" }]}> {getDayNumber()[0]} </Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.box2}>
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity style={styles.button} onPress={()=>updateSelectedDay(dayNumbers[1])}>
                             <Text style={styles.generalFontTitle}> {getDayName()[1]} </Text>
                             <Text style={styles.generalFont}> {getDayNumber()[1]} </Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.box2}>
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity style={styles.button} onPress={()=>updateSelectedDay(dayNumbers[2])}>
                             <Text style={styles.generalFontTitle}> {getDayName()[2]} </Text>
                             <Text style={styles.generalFont}> {getDayNumber()[2]} </Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.box2}>
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity style={styles.button} onPress={()=>updateSelectedDay(dayNumbers[3])}>
                             <Text style={styles.generalFontTitle}> {getDayName()[3]} </Text>
                             <Text style={styles.generalFont}> {getDayNumber()[3]} </Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.box2}>
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity style={styles.button} onPress={()=>updateSelectedDay(dayNumbers[4])}>
                             <Text style={styles.generalFontTitle}> {getDayName()[4]} </Text>
                             <Text style={styles.generalFont}> {getDayNumber()[4]} </Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.box2}>
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity style={styles.button} onPress={()=>updateSelectedDay(dayNumbers[5])}>
                             <Text style={styles.generalFontTitle}> {getDayName()[5]} </Text>
                             <Text style={styles.generalFont}> {getDayNumber()[5]} </Text>
                         </TouchableOpacity>
@@ -161,7 +183,7 @@ const Dashboard = () => {
                     <ScrollView>
                         {habits.map(x => {
                             return (
-                                <TouchableOpacity style={styles.habitsContainer} key={x}>
+                                <TouchableOpacity style={styles.habitsContainer}>
                                     <View style={styles.habitIcon}>
                                         <Icon name="photo" size={30} color="white"></Icon>
                                     </View>
