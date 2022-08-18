@@ -4,6 +4,7 @@ import { Directions } from "react-native-gesture-handler";
 import { Avatar, Colors } from "react-native-paper";
 import iconImage from '../assets/pexels-serena-koi-1576193.jpg'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 import axiosConn from "../api/config";
 import { getUser } from "../utils/securestore.utils";
 import { AuthContext } from "../contexts/AuthContext";
@@ -58,17 +59,7 @@ const Dashboard = () => {
     const [habits, setHabits] = useState([])
     const [selectedDay, setSelectedDay] = useState(new Date().getDay())
     const dayToWeekdayMapping = ["mon", "tues", "wed", "thurs", "fri", "sat", "sun"]
-    //Filler logout function until logout function is created
-    
-    const logout = () => {
-            const { setIsLoggedIn} = useContext(AuthContext);
-            setIsLoggedIn(false);
-    }
-
-    // const { setIsLoggedIn} = useContext(AuthContext);
-    // useEffect(()=>{
-    //     setIsLoggedIn(false)
-    // },[])
+    const { authcontext } = useContext(AuthContext);
 
     useEffect(() => {
         const url = "/api/v1/users/profile";
@@ -78,7 +69,7 @@ const Dashboard = () => {
                 const username = response.data.data.username; //Did not use getUser since it returns a promise on console log
                 setUsername(username)
             } catch (error) {
-                console.log(error);
+                console.log(error.response);
             }
         };
         fetchData();
@@ -119,6 +110,9 @@ const Dashboard = () => {
                     <View style={styles.container2}>
                         <Text style={styles.welcome}> WELCOME!</Text>
                         <Text style={styles.username}> {userName} </Text>
+                    </View>
+                    <View style={styles.exitContainer}>
+                        <MaterialIcon style={styles.exit} name="location-exit" size={30} color="#4E53BA" onPress={()=>authcontext.logOut()}></MaterialIcon>
                     </View>
                 </View>
                 <View>
@@ -165,14 +159,14 @@ const Dashboard = () => {
                 <Text style={styles.personalHabits}>Personal Habits </Text>
                 <View style={styles.scrollableContainer}>
                     <ScrollView>
-                        {habits.map(x =>{
+                        {habits.map(x => {
                             return (
                                 <TouchableOpacity style={styles.habitsContainer}>
-                                <View style={styles.habitIcon}>
-                                    <Icon name="photo" size={30} color="white"></Icon>
-                                </View>
-                                <Text style={styles.username}> {x} </Text>
-                            </TouchableOpacity>
+                                    <View style={styles.habitIcon}>
+                                        <Icon name="photo" size={30} color="white"></Icon>
+                                    </View>
+                                    <Text style={styles.username}> {x} </Text>
+                                </TouchableOpacity>
                             )
                         })}
                     </ScrollView>
@@ -271,6 +265,10 @@ const styles = StyleSheet.create({
         fontWeight: "700",
         fontSize: 20,
         color: "#110580"
+    },
+    exitContainer: {
+        flex:1,
+        alignItems: "flex-end",
     },
     personalHabits: {
         fontWeight: "700",
