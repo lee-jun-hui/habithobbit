@@ -7,18 +7,19 @@ import AnimatedLoader from "../components/AnimatedLoader";
 
 import { saveUser, getUser } from "../utils/securestore.utils";
 
-import { theme } from '../core/theme'
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
+// import { theme } from '../core/theme'
+import { Image, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-paper'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
 import { nameValidator } from '../helpers/nameValidator'
-import Background from '../components/loginBackground'
-import Logo from '../components/loginLogo'
+// import Background from '../components/loginBackground'
+// import Logo from '../components/loginLogo'
 import Header from '../components/loginHeader'
 import Button from '../components/loginButton'
 import TextInput from '../components/loginTextInput'
 import BackButton from '../components/loginBackButton'
+import { styles } from '../styles/styles'
 
 const Login = ({ navigation }) => {
   const [loginCredentials, setLoginCredentials] = useState({
@@ -60,37 +61,39 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <Background>
+    <View style={styles.registercontainer}>
       <BackButton goBack={navigation.goBack} />
-      <Logo />
-      <Header>Login</Header>
-      <TextInput
-        placeholder="Email"
-        returnKeyType="next"
-        value={loginCredentials.email}
-        onChangeText={(value) =>
-          setLoginCredentials((prevlogin) => ({ ...prevlogin, email: value }))
-        }
-        error={!!erroremail.error}
-        errorText={erroremail.error}
-        autoCapitalize="none"
-        autoCompleteType="email"
-        textContentType="emailAddress"
-        keyboardType="email-address"
-      />
-      <TextInput
-        placeholder="Password"
-        value={loginCredentials.password}
-        onChangeText={(value) =>
-          setLoginCredentials((prevlogin) => ({
-            ...prevlogin,
-            password: value,
-          }))
-        }
-        error={!!errorpass.error}
-        errorText={errorpass.error}
-        secureTextEntry
-      />
+      <Image source={require('../assets/login.png')} style={styles.login} resizeMode='contain'/>
+      <View style={styles.logininputcontainer}>  
+        <Header>Login</Header>
+        <TextInput
+          placeholder="Email"
+          returnKeyType="next"
+          value={loginCredentials.email}
+          onChangeText={(value) =>
+            setLoginCredentials((prevlogin) => ({ ...prevlogin, email: value }))
+          }
+          error={!!erroremail.error}
+          errorText={erroremail.error}
+          autoCapitalize="none"
+          autoCompleteType="email"
+          textContentType="emailAddress"
+          keyboardType="email-address"
+        />
+        <TextInput
+          placeholder="Password"
+          value={loginCredentials.password}
+          onChangeText={(value) =>
+            setLoginCredentials((prevlogin) => ({
+              ...prevlogin,
+              password: value,
+            }))
+          }
+          error={!!errorpass.error}
+          errorText={errorpass.error}
+          secureTextEntry
+        />
+      </View>
       <Button
         mode="contained"
         onPress={() => {
@@ -99,7 +102,7 @@ const Login = ({ navigation }) => {
       >
         Login
       </Button>
-      <View style={styles.row}>
+      <View style={styles.registerrow}>
         <Text>Don’t have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Home', { screen: 'Register' })}>
         {/* <TouchableOpacity onPress={() => navigation.replace('Home', { screen: 'Register' })}> */}
@@ -107,28 +110,8 @@ const Login = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       {isLoading ? <AnimatedLoader text="Logging in..." /> : null}
-    </Background>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  forgotPassword: {
-    width: '100%',
-    alignItems: 'flex-end',
-    marginBottom: 24,
-  },
-  row: {
-    flexDirection: 'row',
-    marginTop: 4,
-  },
-  forgot: {
-    fontSize: 13,
-    color: theme.colors.secondary,
-  },
-  link: {
-    fontWeight: 'bold',
-    color: theme.colors.primary,
-  },
-})
 
 export default Login;

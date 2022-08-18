@@ -4,5 +4,5 @@ import { styles } from '../styles/styles'
 
 
 export default function Header(props) {
-  return <Text style={styles.openingheader} {...props} />
+  return <Text style={styles.welcomeheader} {...props} />
 }
