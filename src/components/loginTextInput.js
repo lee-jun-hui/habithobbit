@@ -7,6 +7,7 @@ export default function TextInput({ errorText, description, ...props }) {
   return (
     <View style={styles.container}>
       <Input
+        theme={{ roundness: 100 }}
         style={styles.input}
         selectionColor={theme.colors.primary}
         underlineColor="transparent"
@@ -24,10 +25,11 @@ export default function TextInput({ errorText, description, ...props }) {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginVertical: 12,
+    marginVertical: 5,
   },
   input: {
     backgroundColor: theme.colors.surface,
+    borderRadius: 50,
   },
   description: {
     fontSize: 13,
@@ -35,8 +37,8 @@ const styles = StyleSheet.create({
     paddingTop: 8,
   },
   error: {
-    fontSize: 13,
+    fontSize: 12,
     color: theme.colors.error,
-    paddingTop: 8,
+    // paddingTop: -20,
   },
 })
