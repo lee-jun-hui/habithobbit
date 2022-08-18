@@ -309,7 +309,7 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '85%',
     borderRadius: 50,
-    marginBottom: 80
+    marginBottom: 50
   },
   dropDown: {
     width: '85%',
