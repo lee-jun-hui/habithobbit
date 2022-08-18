@@ -65,7 +65,7 @@ const Login = ({ navigation }) => {
         <BackButton goBack={navigation.goBack} />
         <Image
           source={require("../assets/login.png")}
-          style={styles.register}
+          style={styles.login}
           resizeMode="contain"
         />
         <KeyboardAvoidingView

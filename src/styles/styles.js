@@ -65,6 +65,7 @@ export const styles = StyleSheet.create({
     fontFamily: "roboto-regular",
     fontSize: 16,
     lineHeight: 16,
+    color: theme.colors.text
   },
   onboardcontainer: {
     flex: 1,
@@ -154,7 +155,7 @@ export const styles = StyleSheet.create({
   register: {
     flex: 1,
     resizeMode: "contain",
-    width: "50%",
+    width: "55%",
     alignItems: "center",
     justifyContent: "center",
     paddingTop: "20%",
@@ -173,7 +174,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: windowWidth,
-    paddingBottom: "30%",
+    paddingBottom: "25%",
     height: windowHeight,
   },
   logininput: {
@@ -209,10 +210,11 @@ export const styles = StyleSheet.create({
   },
   login: {
     flex: 1,
-    width: "70%",
+    resizeMode: "contain",
+    width: "65%",
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: "75%",
+    paddingTop: "20%",
   },
   logininputcontainer: {
     flex: 1,
@@ -233,4 +235,97 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  // Text input component
+  textinputcontainer: {
+    width: "85%",
+    marginVertical: 5,
+  },
+  textinput: {
+    backgroundColor: theme.colors.text,
+    borderRadius: 50,
+    fontSize: 16,
+  },
+  textinputdescription: {
+    fontSize: 13,
+    color: theme.colors.secondary,
+    paddingTop: 8,
+  },
+  textinputerror: {
+    fontSize: 12,
+    color: theme.colors.error,
+  },
+  // Create Habit
+  habitcontainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingVertical: 50,
+    // paddingHorizontal: 20,
+    width: "100%",
+  },
+  topHeader: {
+    color: "#110580",
+    fontSize: 20,
+    paddingBottom: '5%',
+    fontFamily: 'roboto-bold'
+  },
+  headerTxt: {
+    color: "#110580",
+    fontSize: 16,
+    alignSelf: "flex-start",
+    marginTop: 15,
+    paddingLeft: 35,
+    fontFamily: 'roboto-medium'
+  },
+  freqDropdown: {
+    paddingVertical: 20,
+    borderWidth: 0.5,
+    alignSelf: 'center',
+    width: '85%',
+    borderRadius: 30,
+    marginVertical: 15,
+    fontSize: 20,
+    zIndex: 1,
+  },
+  freqPlaceholder: {
+    fontSize: 16,
+    color: theme.colors.primary,
+    fontFamily: 'roboto-medium',
+    paddingHorizontal: 8,
+  },
+  freqText: {
+    fontSize: 16,
+    fontFamily: 'roboto-medium',
+    paddingHorizontal: 8,
+    color: theme.colors.primary,
+  },
+  dayDropdown: {
+    fontSize: 16,
+    fontFamily: 'roboto-medium',
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    borderWidth: 0.5,
+    alignSelf: 'center',
+    width: '85%',
+    borderRadius: 50,
+    marginBottom: 250
+  },
+  dropDown: {
+    width: '85%',
+    alignSelf: 'center',
+    fontSize: 10,
+    fontFamily: 'roboto-medium',
+    borderWidth: 0.5,
+  },
+  listItemDropdown: {
+    fontFamily: 'roboto-light',
+    color: theme.colors.primary,
+    fontSize: 16
+  },
+  badgeTextDropdown: {
+    fontFamily: "roboto-regular",
+    fontSize: 14,
+    color: theme.colors.text
+  }
 });

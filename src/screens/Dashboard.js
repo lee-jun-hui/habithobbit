@@ -199,7 +199,8 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     scrollableContainer: {
-        height: "60%"
+        height: "71%",
+        paddingTop: 15
     },
     generalFontTitle: {
         color: "#4E53BA",
