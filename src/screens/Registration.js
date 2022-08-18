@@ -6,20 +6,21 @@ import Spinner from "react-native-loading-spinner-overlay";
 import AnimatedLoader from "../components/AnimatedLoader";
 import { AuthContext } from "../contexts/AuthContext";
 
-import { theme } from '../core/theme'
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
+// import { theme } from '../core/theme'
+import { Image, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-paper'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
 import { nameValidator } from '../helpers/nameValidator'
-import Background from '../components/loginBackground'
-import Logo from '../components/loginLogo'
+// import Background from '../components/loginBackground'
+// import Logo from '../components/loginLogo'
 import Header from '../components/loginHeader'
 import Button from '../components/loginButton'
 import TextInput from '../components/loginTextInput'
 import { TextInput as TextInputt } from 'react-native-paper';
 import BackButton from '../components/loginBackButton'
-import { Image } from 'react-native'
+import { styles } from '../styles/styles'
+
 
 const Registration = ({ navigation }) => {
   const [user, setUser] = useState({
@@ -85,10 +86,10 @@ const Registration = ({ navigation }) => {
 
   return (
     // <SafeAreaView style={{ flex: 1 }}>
-    <Background>
+    <View style={styles.registercontainer}>
       <BackButton goBack={navigation.goBack} />
-      <Image source={require('../assets/loginsignup.png')} style={styles.image} resizeMode='contain'
-      />
+      <Image source={require('../assets/register.png')} style={styles.register} resizeMode='contain'/>
+      <View style={styles.reginputcontainer}>  
       <Header>Sign Up</Header>
       <TextInput
         placeholder="Username"
@@ -133,6 +134,7 @@ const Registration = ({ navigation }) => {
         right={<TextInputt.Icon name={passwordVisible ? "eye" : "eye-off"} onPress={() => setPasswordVisible(!passwordVisible)} />}
 
       />
+      </View> 
       <Button
         mode="contained"
         onPress={() => {
@@ -144,34 +146,17 @@ const Registration = ({ navigation }) => {
       {/* <Button mode="text" onPress={() => navigation.navigate("Login")}>
         Login
       </Button> */}
-      <View style={styles.row}>
-        <Text>Already have an account? </Text>
+      <View style={styles.registerrow}>
+        <Text style={styles.registertext}>Already have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           {/* <TouchableOpacity onPress={() => navigation.replace('Login')}> */}
           <Text style={styles.link}>Sign in</Text>
         </TouchableOpacity>
       </View>
       {isLoading ? <AnimatedLoader text="Registering..." /> : null}
-    </Background>
+      </View>
     // </SafeAreaView>
   );
 };
-
-
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    marginTop: 4,
-  },
-  link: {
-    fontWeight: 'bold',
-    color: theme.colors.primary,
-  },
-  image: {
-    width: 200,
-    height: 200,
-    marginBottom: 8,
-  },
-})
 
 export default Registration;
