@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { AuthContext } from "../contexts/AuthContext";
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
-import { getUser } from "../utils/securestore.utils";
+import { getToken, getUser } from "../utils/securestore.utils";
 import * as SplashScreen from "expo-splash-screen";
 import useFonts from "../hooks/useFonts";
 
@@ -16,8 +16,10 @@ const RootNavigation = () => {
 
   useEffect(() => {
     const checkIfUserIsLoggedIn = async () => {
-      const user = await getUser();
-      if (user !== null) {
+      const token = await getToken();
+      console.log(token);
+
+      if (token !== null) {
         setIsLoggedIn(true);
       }
       setIsChecking(false);
