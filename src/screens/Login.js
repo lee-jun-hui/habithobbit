@@ -6,24 +6,28 @@ import AnimatedLoader from "../components/AnimatedLoader";
 
 import { saveUser, getUser } from "../utils/securestore.utils";
 
-import { theme } from "../core/theme";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { Text } from "react-native-paper";
-import { emailValidator } from "../helpers/emailValidator";
-import { passwordValidator } from "../helpers/passwordValidator";
-import { nameValidator } from "../helpers/nameValidator";
-import Background from "../components/loginBackground";
-import Logo from "../components/loginLogo";
-import Header from "../components/loginHeader";
-import Button from "../components/loginButton";
-import TextInput from "../components/loginTextInput";
-import BackButton from "../components/loginBackButton";
+import { theme } from '../core/theme'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text } from 'react-native-paper'
+import { emailValidator } from '../helpers/emailValidator'
+import { passwordValidator } from '../helpers/passwordValidator'
+import { nameValidator } from '../helpers/nameValidator'
+import Background from '../components/loginBackground'
+import Logo from '../components/loginLogo'
+import Header from '../components/loginHeader'
+import Button from '../components/loginButton'
+import TextInput from '../components/loginTextInput'
+import { TextInput as TextInputt } from 'react-native-paper';
+import BackButton from '../components/loginBackButton'
+import { Image } from 'react-native'
 
 const Login = ({ navigation }) => {
   const [loginCredentials, setLoginCredentials] = useState({
     email: "",
     password: "",
   });
+
+  const [passwordVisible, setPasswordVisible] = useState(true);
 
   const {
     isLoggedIn,
@@ -37,20 +41,29 @@ const Login = ({ navigation }) => {
     authcontext,
   } = useContext(AuthContext);
 
-  const emailError = emailValidator(loginCredentials.email);
-  const passwordError = passwordValidator(loginCredentials.password);
+
+  twoCallsemail = e => {
+    setLoginCredentials((prevUser) => ({ ...prevUser, email: e }))
+    seterroremail({ error: '' })
+  };
+  twoCallspass = e => {
+    setLoginCredentials((prevUser) => ({ ...prevUser, password: e }))
+    seterrorpass({ error: '' })
+  };
 
   return (
     <Background>
       <BackButton goBack={navigation.goBack} />
-      <Logo />
+      <Image source={require('../assets/Loginlogin.png')} style={styles.image} resizeMode='contain'
+      />
       <Header>Login</Header>
       <TextInput
         placeholder="Email"
         returnKeyType="next"
         value={loginCredentials.email}
         onChangeText={(value) =>
-          setLoginCredentials((prevlogin) => ({ ...prevlogin, email: value }))
+          twoCallsemail(value)
+          // setLoginCredentials((prevlogin) => ({ ...prevlogin, email: value }))
         }
         error={!!erroremail.error}
         errorText={erroremail.error}
@@ -58,19 +71,20 @@ const Login = ({ navigation }) => {
         autoCompleteType="email"
         textContentType="emailAddress"
         keyboardType="email-address"
+        left={<TextInputt.Icon name="email" />}
       />
       <TextInput
         placeholder="Password"
         value={loginCredentials.password}
         onChangeText={(value) =>
-          setLoginCredentials((prevlogin) => ({
-            ...prevlogin,
-            password: value,
-          }))
+          twoCallspass(value)
+          // setLoginCredentials((prevlogin) => ({...prevlogin,password: value,}))
         }
         error={!!errorpass.error}
         errorText={errorpass.error}
-        secureTextEntry
+        left={<TextInputt.Icon name="lock" />}
+        secureTextEntry={passwordVisible}
+        right={<TextInputt.Icon name={passwordVisible ? "eye" : "eye-off"} onPress={() => setPasswordVisible(!passwordVisible)} />}
       />
       <Button
         mode="contained"
@@ -87,10 +101,10 @@ const Login = ({ navigation }) => {
       </Button>
       <View style={styles.row}>
         <Text>Don’t have an account? </Text>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Home", { screen: "Register" })}
-        >
-          {/* <TouchableOpacity onPress={() => navigation.replace('Home', { screen: 'Register' })}> */}
+
+        {/* <TouchableOpacity onPress={() => navigation.navigate('Home', { screen: 'Register' })}> */}
+        <TouchableOpacity onPress={() => navigation.replace('Home', { screen: 'Register' })}>
+
           <Text style={styles.link}>Sign up</Text>
         </TouchableOpacity>
       </View>
