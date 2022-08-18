@@ -6,9 +6,9 @@ import CreateHabit from "../screens/CreateHabit";
 
 const Tab = createBottomTabNavigator();
 
-const PrivateRoute = () => {
-  return (
-    <Tab.Navigator 
+const Tabs = () => {
+    return (
+        <Tab.Navigator
         screenOptions={{
             headerShown:false,
             tabBarStyle:{
@@ -48,6 +48,6 @@ const PrivateRoute = () => {
             }}/>
         </Tab.Navigator>
     )
-};
+}
 
-export default PrivateRoute;
+export default Tabs
