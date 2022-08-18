@@ -65,14 +65,14 @@ const Login = ({ navigation }) => {
         <BackButton goBack={navigation.goBack} />
         <Image
           source={require("../assets/login.png")}
-          style={styles.login}
+          style={styles.register}
           resizeMode="contain"
         />
         <KeyboardAvoidingView
           style={styles.keyboardavoiding}
           behavior="padding"
         >
-          <View style={styles.logininputcontainer}>
+          <View style={styles.reginputcontainer}>
             <Header>Login</Header>
             <TextInput
               placeholder="Email"
@@ -110,6 +110,7 @@ const Login = ({ navigation }) => {
             />
           </View>
         </KeyboardAvoidingView>
+
         <Button
           mode="contained"
           onPress={() => {
