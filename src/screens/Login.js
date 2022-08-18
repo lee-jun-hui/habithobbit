@@ -26,7 +26,8 @@ const Login = ({ navigation }) => {
     email: "",
     password: "",
   });
-
+  const emailError = emailValidator(loginCredentials.email);
+  const passwordError = passwordValidator(loginCredentials.password);
   const [passwordVisible, setPasswordVisible] = useState(true);
 
   const {

@@ -6,7 +6,6 @@ import PrivateRoute from "./PrivateRoute";
 import { getUser } from "../utils/securestore.utils";
 import * as SplashScreen from "expo-splash-screen";
 import useFonts from "../hooks/useFonts";
-import DashboardTab from "./DashboardTab"
 
 SplashScreen.preventAutoHideAsync();
 
@@ -54,7 +53,7 @@ const RootNavigation = () => {
 
   return (
     <NavigationContainer onReady={onLayoutRootView}>
-      {isLoggedIn ? <DashboardTab /> : <PublicRoute />}
+      {isLoggedIn ? <PrivateRoute /> : <PublicRoute />}
     </NavigationContainer>
   );
 };

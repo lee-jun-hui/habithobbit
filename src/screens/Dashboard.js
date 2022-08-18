@@ -161,7 +161,7 @@ const Dashboard = () => {
                     <ScrollView>
                         {habits.map(x => {
                             return (
-                                <TouchableOpacity style={styles.habitsContainer}>
+                                <TouchableOpacity style={styles.habitsContainer} key={x}>
                                     <View style={styles.habitIcon}>
                                         <Icon name="photo" size={30} color="white"></Icon>
                                     </View>
