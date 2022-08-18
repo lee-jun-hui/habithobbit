@@ -11,9 +11,9 @@ import {
 import DropDownPicker from "react-native-dropdown-picker";
 import axiosConn from "../api/config";
 import TextInput from "../components/loginTextInput";
-import Button from '../components/loginButton'
-import { styles  } from "../styles/styles";
-
+import Button from "../components/loginButton";
+import { styles } from "../styles/styles";
+import BackButton from "../components/loginBackButton";
 const CreateHabit = ({ navigation }) => {
   const [habitData, setHabitData] = useState({
     name: "",
@@ -72,13 +72,20 @@ const CreateHabit = ({ navigation }) => {
     prepare();
   }, [habit, habitDesc, freqValue, dayValue]);
 
+  const clearForm = () => {
+    setHabit("");
+    setHabitDesc("");
+    setFreqValue("weekly");
+    setDayValue(["monday"]);
+  };
+
   const createHabit = async () => {
     try {
       const url = "/api/v1/habits";
       const response = await axiosConn.post(url, habitData);
       if (response) {
         Alert.alert("SUCCESS", "Habit created!", [
-          { text: "ok", onPress: () => navigation.goBack() },
+          { text: "Ok", onPress: () => clearForm() },
         ]);
       }
     } catch (error) {
@@ -109,6 +116,7 @@ const CreateHabit = ({ navigation }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.habitcontainer}>
+        <BackButton goBack={navigation.goBack} />
         <Text style={styles.topHeader}>Create Habit</Text>
         <Text style={styles.headerTxt}>Habit</Text>
         <TextInput
@@ -179,68 +187,5 @@ const CreateHabit = ({ navigation }) => {
     </TouchableWithoutFeedback>
   );
 };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     alignItems: "center",
-//     justifyContent: "flex-start",
-//     paddingVertical: 40,
-//     // paddingHorizontal: 20,
-//     width: "100%",
-//   },
-//   topHeader: {
-//     color: "#110580",
-//     fontSize: 20,
-//     paddingBottom: '5%',
-//     fontFamily: 'roboto-bold'
-//   },
-//   headerTxt: {
-//     color: "#110580",
-//     fontSize: 16,
-//     alignSelf: "flex-start",
-//     marginTop: 15,
-//     paddingLeft: 25,
-//     fontFamily: 'roboto-medium'
-//   },
-//   inputTxt: {
-//     fontSize: 20,
-//     borderWidth: 1,
-//     width: "100%",
-//     padding: 15,
-//     borderRadius: 30,
-//   },
-//   freqDropdown: {
-//     width: '80%',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     borderRadius: 30,
-//     marginVertical: 15,
-//     fontSize: 20,
-//     zIndex: 1,
-//   },
-//   freqPlaceholder: {
-//     color: "lightgrey",
-//   },
-//   freqText: {
-//     fontSize: 20,
-//   },
-//   dayDropdown: {
-//     borderRadius: 30,
-//   },
-//   button: {
-//     width: 200,
-//     backgroundColor: "#110580",
-//     padding: 10,
-//     marginTop: 300,
-//     borderRadius: 30,
-//   },
-//   buttonTxt: {
-//     color: "white",
-//     fontSize: 18,
-//     textAlign: "center",
-//   },
-// });
 
 export default CreateHabit;
