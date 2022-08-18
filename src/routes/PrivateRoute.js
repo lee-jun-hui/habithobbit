@@ -2,15 +2,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import DashboardScreen from "../screens/Dashboard";
 import Icon from 'react-native-vector-icons/AntDesign'
 import { StyleSheet, Text, View} from "react-native";
-import HabitScreen from "../screens/CreateHabit"
-import UserProfile from "../screens/UserProfile"
-
+import CreateHabit from "../screens/CreateHabit";
 
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
     return (
-        <Tab.Navigator 
+        <Tab.Navigator
         screenOptions={{
             headerShown:false,
             tabBarStyle:{
@@ -33,7 +31,7 @@ const Tabs = () => {
                     <Icon name="team" size={26} color={color}></Icon>
                 ),
             }}/>
-            <Tab.Screen name="Plus" component={HabitScreen} options={{
+            <Tab.Screen name="Plus" component={CreateHabit} options={{
                 tabBarIcon:({focused, color})=>(
                     <Icon name="pluscircle" size={49} color={"#4E53BA"} style={{top: 0}}></Icon>
                 ),
@@ -43,7 +41,7 @@ const Tabs = () => {
                     <Icon name="calendar" size={26} color={color}></Icon>
                 ),
             }}/>
-            <Tab.Screen name="User" component={UserProfile} options={{
+            <Tab.Screen name="User" component={DashboardScreen} options={{
                 tabBarIcon:({focused, color})=>(
                     <Icon name="user" size={26} color={color}></Icon>
                 ),

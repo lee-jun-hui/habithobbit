@@ -17,7 +17,9 @@ import Logo from '../components/loginLogo'
 import Header from '../components/loginHeader'
 import Button from '../components/loginButton'
 import TextInput from '../components/loginTextInput'
+import { TextInput as TextInputt } from 'react-native-paper';
 import BackButton from '../components/loginBackButton'
+import { Image } from 'react-native'
 
 const Registration = ({ navigation }) => {
   const [user, setUser] = useState({
@@ -28,8 +30,22 @@ const Registration = ({ navigation }) => {
   const [erroruser, seterroruser] = useState({ error: '' })
   const [erroremail, seterroremail] = useState({ error: '' })
   const [errorpass, seterrorpass] = useState({ error: '' })
+  const [passwordVisible, setPasswordVisible] = useState(true);
 
   const { isLoading, setIsLoading } = useContext(AuthContext);
+
+  twoCallsuser = e => {
+    setUser((prevUser) => ({ ...prevUser, username: e }))
+    seterroruser({ error: '' })
+  };
+  twoCallsemail = e => {
+    setUser((prevUser) => ({ ...prevUser, email: e }))
+    seterroremail({ error: '' })
+  };
+  twoCallspass = e => {
+    setUser((prevUser) => ({ ...prevUser, password: e }))
+    seterrorpass({ error: '' })
+  };
 
   const registerUser = async () => {
 
@@ -71,24 +87,28 @@ const Registration = ({ navigation }) => {
     // <SafeAreaView style={{ flex: 1 }}>
     <Background>
       <BackButton goBack={navigation.goBack} />
-      <Logo />
+      <Image source={require('../assets/loginsignup.png')} style={styles.image} resizeMode='contain'
+      />
       <Header>Sign Up</Header>
       <TextInput
         placeholder="Username"
         returnKeyType="next"
         value={user.username}
         onChangeText={(value) =>
-          setUser((prevUser) => ({ ...prevUser, username: value }))
+          twoCallsuser(value)
+          // setUser((prevUser) => ({ ...prevUser, username: value }))
         }
         error={!!erroruser.error}
         errorText={erroruser.error}
+        left={<TextInputt.Icon name="account" />}
       />
       <TextInput
         placeholder="Email"
         returnKeyType="next"
         value={user.email}
         onChangeText={(value) =>
-          setUser((prevUser) => ({ ...prevUser, email: value }))
+          twoCallsemail(value)
+          // setUser((prevUser) => ({ ...prevUser, email: value }))
         }
         error={!!erroremail.error}
         errorText={erroremail.error}
@@ -96,17 +116,22 @@ const Registration = ({ navigation }) => {
         autoCompleteType="email"
         textContentType="emailAddress"
         keyboardType="email-address"
+        left={<TextInputt.Icon name="email" />}
       />
       <TextInput
         placeholder="Password"
         returnKeyType="done"
         value={user.password}
         onChangeText={(value) =>
-          setUser((prevUser) => ({ ...prevUser, password: value }))
+          twoCallspass(value)
+          // setUser((prevUser) => ({ ...prevUser, password: value }))
         }
         error={!!errorpass.error}
         errorText={errorpass.error}
-        secureTextEntry
+        left={<TextInputt.Icon name="lock" />}
+        secureTextEntry={passwordVisible}
+        right={<TextInputt.Icon name={passwordVisible ? "eye" : "eye-off"} onPress={() => setPasswordVisible(!passwordVisible)} />}
+
       />
       <Button
         mode="contained"
@@ -122,12 +147,12 @@ const Registration = ({ navigation }) => {
       <View style={styles.row}>
         <Text>Already have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        {/* <TouchableOpacity onPress={() => navigation.replace('Login')}> */}
+          {/* <TouchableOpacity onPress={() => navigation.replace('Login')}> */}
           <Text style={styles.link}>Sign in</Text>
         </TouchableOpacity>
       </View>
       {isLoading ? <AnimatedLoader text="Registering..." /> : null}
-      </Background>
+    </Background>
     // </SafeAreaView>
   );
 };
@@ -142,7 +167,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: theme.colors.primary,
   },
+  image: {
+    width: 200,
+    height: 200,
+    marginBottom: 8,
+  },
 })
-
 
 export default Registration;
