@@ -1,6 +1,5 @@
 import { Alert, SafeAreaView } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
-// import { TextInput, Button } from "react-native-paper";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
 import AnimatedLoader from "../components/AnimatedLoader";
@@ -18,6 +17,7 @@ import { nameValidator } from '../helpers/nameValidator'
 import Header from '../components/loginHeader'
 import Button from '../components/loginButton'
 import TextInput from '../components/loginTextInput'
+import { TextInput as TextInputt } from 'react-native-paper';
 import BackButton from '../components/loginBackButton'
 import { styles } from '../styles/styles'
 
@@ -26,86 +26,86 @@ const Login = ({ navigation }) => {
     email: "",
     password: "",
   });
-  const [erroremail, seterroremail] = useState({ error: '' })
-  const [errorpass, seterrorpass] = useState({ error: '' })
 
-  const { isLoggedIn, setIsLoggedIn, isLoading, setIsLoading } =
-    useContext(AuthContext);
+  const [passwordVisible, setPasswordVisible] = useState(true);
 
-  const login = async (loginCredentials) => {
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    isLoading,
+    setIsLoading,
+    erroremail,
+    seterroremail,
+    errorpass,
+    seterrorpass,
+    authcontext,
+  } = useContext(AuthContext);
 
-    const emailError = emailValidator(loginCredentials.email)
-    const passwordError = passwordValidator(loginCredentials.password)
-    if (emailError || passwordError) {
-      seterroremail({ ...erroremail, error: emailError })
-      seterrorpass({ ...errorpass, error: passwordError })
-      return
-    }
 
-    setIsLoading(true);
-
-    try {
-      const response = await axios.post(
-        "https://habithobbit-server.herokuapp.com/api/v1/users/login",
-        loginCredentials
-      );
-      let userData = response.data.data;
-      saveUser(JSON.stringify(userData));
-      setIsLoggedIn(true);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      setIsLoggedIn(false);
-      Alert.alert(`${error.response.data.message}`);
-    }
+  twoCallsemail = e => {
+    setLoginCredentials((prevUser) => ({ ...prevUser, email: e }))
+    seterroremail({ error: '' })
+  };
+  twoCallspass = e => {
+    setLoginCredentials((prevUser) => ({ ...prevUser, password: e }))
+    seterrorpass({ error: '' })
   };
 
   return (
     <View style={styles.registercontainer}>
       <BackButton goBack={navigation.goBack} />
       <Image source={require('../assets/login.png')} style={styles.login} resizeMode='contain'/>
-      <View style={styles.logininputcontainer}>  
-        <Header>Login</Header>
-        <TextInput
-          placeholder="Email"
-          returnKeyType="next"
-          value={loginCredentials.email}
-          onChangeText={(value) =>
-            setLoginCredentials((prevlogin) => ({ ...prevlogin, email: value }))
-          }
-          error={!!erroremail.error}
-          errorText={erroremail.error}
-          autoCapitalize="none"
-          autoCompleteType="email"
-          textContentType="emailAddress"
-          keyboardType="email-address"
-        />
-        <TextInput
-          placeholder="Password"
-          value={loginCredentials.password}
-          onChangeText={(value) =>
-            setLoginCredentials((prevlogin) => ({
-              ...prevlogin,
-              password: value,
-            }))
-          }
-          error={!!errorpass.error}
-          errorText={errorpass.error}
-          secureTextEntry
-        />
+      <View style={styles.logininputcontainer}> 
+          <Header>Login</Header>
+          <TextInput
+            placeholder="Email"
+            returnKeyType="next"
+            value={loginCredentials.email}
+            onChangeText={(value) =>
+              twoCallsemail(value)
+              // setLoginCredentials((prevlogin) => ({ ...prevlogin, email: value }))
+            }
+            error={!!erroremail.error}
+            errorText={erroremail.error}
+            autoCapitalize="none"
+            autoCompleteType="email"
+            textContentType="emailAddress"
+            keyboardType="email-address"
+            left={<TextInputt.Icon name="email" />}
+          />
+          <TextInput
+            placeholder="Password"
+            value={loginCredentials.password}
+            onChangeText={(value) =>
+              twoCallspass(value)
+              // setLoginCredentials((prevlogin) => ({...prevlogin,password: value,}))
+            }
+            error={!!errorpass.error}
+            errorText={errorpass.error}
+            left={<TextInputt.Icon name="lock" />}
+            secureTextEntry={passwordVisible}
+            right={<TextInputt.Icon name={passwordVisible ? "eye" : "eye-off"} onPress={() => setPasswordVisible(!passwordVisible)} />}
+          />
       </View>
       <Button
         mode="contained"
         onPress={() => {
-          login(loginCredentials);
+          if (emailError || passwordError) {
+            seterroremail({ ...erroremail, error: emailError });
+            seterrorpass({ ...errorpass, error: passwordError });
+            return;
+          }
+          authcontext.logIn(loginCredentials);
         }}
       >
         Login
       </Button>
       <View style={styles.registerrow}>
         <Text>Don’t have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Home', { screen: 'Register' })}>
-        {/* <TouchableOpacity onPress={() => navigation.replace('Home', { screen: 'Register' })}> */}
+
+        {/* <TouchableOpacity onPress={() => navigation.navigate('Home', { screen: 'Register' })}> */}
+        <TouchableOpacity onPress={() => navigation.replace('Home', { screen: 'Register' })}>
+
           <Text style={styles.link}>Sign up</Text>
         </TouchableOpacity>
       </View>

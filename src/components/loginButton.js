@@ -6,6 +6,7 @@ import { styles } from '../styles/styles'
 export default function Button({ mode, style, ...props }) {
   return (
     <PaperButton
+    theme={{ roundness: 100 }}
       style={[
         styles.button,
         mode === 'outlined',
@@ -18,3 +19,4 @@ export default function Button({ mode, style, ...props }) {
     />
   )
 }
+

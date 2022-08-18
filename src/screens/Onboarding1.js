@@ -2,6 +2,7 @@ import React from 'react'
 import Header from '../components/loginHeader'
 import Button from '../components/loginButton'
 import Paragraph from '../components/loginParagraph'
+
 import { Image, View } from 'react-native'
 import { styles } from '../styles/styles'
 
@@ -25,3 +26,4 @@ export default function Onboarding1({ navigation }) {
       </Button>
     </View>
 )}
+

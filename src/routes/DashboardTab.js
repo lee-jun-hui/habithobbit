@@ -3,6 +3,8 @@ import DashboardScreen from "../screens/Dashboard";
 import Icon from 'react-native-vector-icons/AntDesign'
 import { StyleSheet, Text, View} from "react-native";
 import UserProfile from "../screens/UserProfile";
+import HabitScreen from "../screens/CreateHabit"
+
 
 const Tab = createBottomTabNavigator();
 
@@ -18,12 +20,12 @@ const Tabs = () => {
                 alignItems: "center"
             },
             tabBarShowLabel: false,
-            tabBarActiveTintColor: "black",
+            tabBarActiveTintColor: "red",
             tabBarInactiveTintColor: "grey"
             }}>
             <Tab.Screen name="Home" component={DashboardScreen} options={{
                 tabBarIcon:({focused, color})=>(
-                    <Icon name="home" size={26} color={color}></Icon>
+                    <Icon name="team" size={26} color={color}></Icon>
                 ),
             }}/>
             <Tab.Screen name="Team" component={DashboardScreen} options={{
@@ -31,7 +33,7 @@ const Tabs = () => {
                     <Icon name="team" size={26} color={color}></Icon>
                 ),
             }}/>
-            <Tab.Screen name="Plus" component={DashboardScreen} options={{
+            <Tab.Screen name="Plus" component={HabitScreen} options={{
                 tabBarIcon:({focused, color})=>(
                     <Icon name="pluscircle" size={49} color={"#4E53BA"} style={{top: 0}}></Icon>
                 ),

@@ -17,8 +17,10 @@ import { nameValidator } from '../helpers/nameValidator'
 import Header from '../components/loginHeader'
 import Button from '../components/loginButton'
 import TextInput from '../components/loginTextInput'
+import { TextInput as TextInputt } from 'react-native-paper';
 import BackButton from '../components/loginBackButton'
 import { styles } from '../styles/styles'
+
 
 const Registration = ({ navigation }) => {
   const [user, setUser] = useState({
@@ -29,8 +31,22 @@ const Registration = ({ navigation }) => {
   const [erroruser, seterroruser] = useState({ error: '' })
   const [erroremail, seterroremail] = useState({ error: '' })
   const [errorpass, seterrorpass] = useState({ error: '' })
+  const [passwordVisible, setPasswordVisible] = useState(true);
 
   const { isLoading, setIsLoading } = useContext(AuthContext);
+
+  twoCallsuser = e => {
+    setUser((prevUser) => ({ ...prevUser, username: e }))
+    seterroruser({ error: '' })
+  };
+  twoCallsemail = e => {
+    setUser((prevUser) => ({ ...prevUser, email: e }))
+    seterroremail({ error: '' })
+  };
+  twoCallspass = e => {
+    setUser((prevUser) => ({ ...prevUser, password: e }))
+    seterrorpass({ error: '' })
+  };
 
   const registerUser = async () => {
 
@@ -74,43 +90,51 @@ const Registration = ({ navigation }) => {
       <BackButton goBack={navigation.goBack} />
       <Image source={require('../assets/register.png')} style={styles.register} resizeMode='contain'/>
       <View style={styles.reginputcontainer}>  
-        <Header>Sign Up</Header>
-        <TextInput
-          placeholder="Username"
-          returnKeyType="next"
-          value={user.username}
-          onChangeText={(value) =>
-            setUser((prevUser) => ({ ...prevUser, username: value }))
-          }
-          error={!!erroruser.error}
-          errorText={erroruser.error}
-        />
-        <TextInput
-          placeholder="Email"
-          returnKeyType="next"
-          value={user.email}
-          onChangeText={(value) =>
-            setUser((prevUser) => ({ ...prevUser, email: value }))
-          }
-          error={!!erroremail.error}
-          errorText={erroremail.error}
-          autoCapitalize="none"
-          autoCompleteType="email"
-          textContentType="emailAddress"
-          keyboardType="email-address"
-        />
-        <TextInput
-          placeholder="Password"
-          returnKeyType="done"
-          value={user.password}
-          onChangeText={(value) =>
-            setUser((prevUser) => ({ ...prevUser, password: value }))
-          }
-          error={!!errorpass.error}
-          errorText={errorpass.error}
-          secureTextEntry
-        />
-      </View>  
+      <Header>Sign Up</Header>
+      <TextInput
+        placeholder="Username"
+        returnKeyType="next"
+        value={user.username}
+        onChangeText={(value) =>
+          twoCallsuser(value)
+          // setUser((prevUser) => ({ ...prevUser, username: value }))
+        }
+        error={!!erroruser.error}
+        errorText={erroruser.error}
+        left={<TextInputt.Icon name="account" />}
+      />
+      <TextInput
+        placeholder="Email"
+        returnKeyType="next"
+        value={user.email}
+        onChangeText={(value) =>
+          twoCallsemail(value)
+          // setUser((prevUser) => ({ ...prevUser, email: value }))
+        }
+        error={!!erroremail.error}
+        errorText={erroremail.error}
+        autoCapitalize="none"
+        autoCompleteType="email"
+        textContentType="emailAddress"
+        keyboardType="email-address"
+        left={<TextInputt.Icon name="email" />}
+      />
+      <TextInput
+        placeholder="Password"
+        returnKeyType="done"
+        value={user.password}
+        onChangeText={(value) =>
+          twoCallspass(value)
+          // setUser((prevUser) => ({ ...prevUser, password: value }))
+        }
+        error={!!errorpass.error}
+        errorText={errorpass.error}
+        left={<TextInputt.Icon name="lock" />}
+        secureTextEntry={passwordVisible}
+        right={<TextInputt.Icon name={passwordVisible ? "eye" : "eye-off"} onPress={() => setPasswordVisible(!passwordVisible)} />}
+
+      />
+      </View> 
       <Button
         mode="contained"
         onPress={() => {
@@ -125,7 +149,7 @@ const Registration = ({ navigation }) => {
       <View style={styles.registerrow}>
         <Text style={styles.registertext}>Already have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        {/* <TouchableOpacity onPress={() => navigation.replace('Login')}> */}
+          {/* <TouchableOpacity onPress={() => navigation.replace('Login')}> */}
           <Text style={styles.link}>Sign in</Text>
         </TouchableOpacity>
       </View>
@@ -134,6 +158,5 @@ const Registration = ({ navigation }) => {
     // </SafeAreaView>
   );
 };
-
 
 export default Registration;

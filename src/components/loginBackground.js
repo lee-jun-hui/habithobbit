@@ -8,6 +8,7 @@ export default function Background({ children }) {
     <ImageBackground
       source={require('../assets/welcomepage.png')}
       style={styles.welcomebg}
+
     >
       <KeyboardAvoidingView style={styles.welcomecontainer} behavior="padding">
         {children}

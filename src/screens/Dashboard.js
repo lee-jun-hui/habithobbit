@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 import { Directions } from "react-native-gesture-handler";
 import { Avatar, Colors } from "react-native-paper";
 import iconImage from '../assets/pexels-serena-koi-1576193.jpg'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
+import axiosConn from "../api/config";
+import { getUser } from "../utils/securestore.utils";
+import { AuthContext } from "../contexts/AuthContext";
+
 
 const getCurrentDate = () => {
     let day = new Date().getDate();
@@ -49,14 +54,65 @@ const getDayNumber = () => {
 }
 
 const Dashboard = () => {
+
+    const [userName, setUsername] = useState("Username")
+    const [habits, setHabits] = useState([])
+    const [selectedDay, setSelectedDay] = useState(new Date().getDay())
+    const dayToWeekdayMapping = ["mon", "tues", "wed", "thurs", "fri", "sat", "sun"]
+    const { authcontext } = useContext(AuthContext);
+
+    useEffect(() => {
+        const url = "/api/v1/users/profile";
+        const fetchData = async () => {
+            try {
+                const response = await axiosConn.get(url);
+                const username = response.data.data.username; //Did not use getUser since it returns a promise on console log
+                setUsername(username)
+            } catch (error) {
+                console.log(error.response);
+            }
+        };
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const url = "/api/v1/habits";
+        const fetchData = async () => {
+            try {
+                const response = await axiosConn.get(url);
+                const habits = response.data.data;
+                const day = dayToWeekdayMapping[selectedDay]
+                const arrayOfHabits = [];
+                habits.forEach((x) => {
+                    let frequency = x.frequency[0];
+                    let arrayOfObjects = Object.entries(frequency)
+                    arrayOfObjects.forEach((y) => {
+                        if (y[0] == day) {
+                            if (y[1] == true) {
+                                arrayOfHabits.push(x.name)
+                            }
+                        }
+                    })
+                })
+                setHabits(arrayOfHabits)
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, []);
+
     return (
-        <View style={{backgroundColor:"white"}}>
+        <View style={{ backgroundColor: "white" }}>
             <View style={[styles.margin]}>
                 <View style={styles.container}>
                     <Avatar.Image size={64} source={iconImage}></Avatar.Image>
                     <View style={styles.container2}>
                         <Text style={styles.welcome}> WELCOME!</Text>
-                        <Text style={styles.username}> Username </Text>
+                        <Text style={styles.username}> {userName} </Text>
+                    </View>
+                    <View style={styles.exitContainer}>
+                        <MaterialIcon style={styles.exit} name="location-exit" size={30} color="#4E53BA" onPress={()=>authcontext.logOut()}></MaterialIcon>
                     </View>
                 </View>
                 <View>
@@ -103,30 +159,16 @@ const Dashboard = () => {
                 <Text style={styles.personalHabits}>Personal Habits </Text>
                 <View style={styles.scrollableContainer}>
                     <ScrollView>
-                        <TouchableOpacity style={styles.habitsContainer}>
-                            <View style={styles.habitIcon}>
-                                <Icon name="photo" size={30} color="white"></Icon>
-                            </View>
-                            <Text style={styles.username}> Habit 1 </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.habitsContainer}>
-                            <View style={styles.habitIcon}>
-                                <Icon name="photo" size={30} color="white"></Icon>
-                            </View>
-                            <Text style={styles.username}> Habit 2 </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.habitsContainer}>
-                            <View style={styles.habitIcon}>
-                                <Icon name="photo" size={30} color="white"></Icon>
-                            </View>
-                            <Text style={styles.username}> Habit 3 </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.habitsContainer}>
-                            <View style={styles.habitIcon}>
-                                <Icon name="photo" size={30} color="white"></Icon>
-                            </View>
-                            <Text style={styles.username}> Habit 4 </Text>
-                        </TouchableOpacity>
+                        {habits.map(x => {
+                            return (
+                                <TouchableOpacity style={styles.habitsContainer}>
+                                    <View style={styles.habitIcon}>
+                                        <Icon name="photo" size={30} color="white"></Icon>
+                                    </View>
+                                    <Text style={styles.username}> {x} </Text>
+                                </TouchableOpacity>
+                            )
+                        })}
                     </ScrollView>
                 </View>
             </View>
@@ -205,14 +247,14 @@ const styles = StyleSheet.create({
     date: {
         marginTop: 20,
         fontWeight: "400",
-        fontFamily: "Roboto",
+        fontFamily: "roboto-regular",
         fontSize: 12,
         color: "#4E53BA"
     },
     welcome: {
         marginTop: 10,
         marginLeft: 10,
-        fontFamily: "Roboto",
+        fontFamily: "roboto-regular",
         fontSize: 16,
         fontWeight: "200",
         color: "#868AE0"
@@ -223,6 +265,10 @@ const styles = StyleSheet.create({
         fontWeight: "700",
         fontSize: 20,
         color: "#110580"
+    },
+    exitContainer: {
+        flex:1,
+        alignItems: "flex-end",
     },
     personalHabits: {
         fontWeight: "700",
