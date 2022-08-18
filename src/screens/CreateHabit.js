@@ -3,7 +3,6 @@ import {
   Alert,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
   TouchableWithoutFeedback,
@@ -11,8 +10,9 @@ import {
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import axiosConn from "../api/config";
+import TextInput from "../components/loginTextInput";
 
-const CreateHabit = () => {
+const CreateHabit = ({ navigation }) => {
   const [habitData, setHabitData] = useState({
     name: "",
     description: "",
@@ -75,7 +75,9 @@ const CreateHabit = () => {
       const url = "/api/v1/habits";
       const response = await axiosConn.post(url, habitData);
       if (response) {
-        Alert.alert("SUCCESS", "Habit created!");
+        Alert.alert("SUCCESS", "Habit created!", [
+          { text: "ok", onPress: () => navigation.goBack() },
+        ]);
       }
     } catch (error) {
       console.log(error.response.data);
@@ -108,7 +110,6 @@ const CreateHabit = () => {
         <Text style={styles.topHeader}>Create Habit</Text>
         <Text style={styles.headerTxt}>Habit</Text>
         <TextInput
-          style={styles.inputTxt}
           placeholder="Enter a Habit"
           onChangeText={(value) => {
             setHabit(value);
@@ -117,7 +118,6 @@ const CreateHabit = () => {
         />
         <Text style={styles.headerTxt}>Habit Description</Text>
         <TextInput
-          style={styles.inputTxt}
           placeholder="Enter a Description"
           onChangeText={(value) => {
             setHabitDesc(value);
