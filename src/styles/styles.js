@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     width: windowWidth,
-    height: windowHeight,
+    // height: windowHeight,
   },
   welcomecontainer: {
     flex: 1,
@@ -65,7 +65,7 @@ export const styles = StyleSheet.create({
     fontFamily: "roboto-regular",
     fontSize: 16,
     lineHeight: 16,
-    color: theme.colors.text
+    color: theme.colors.text,
   },
   onboardcontainer: {
     flex: 1,
@@ -174,7 +174,15 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: windowWidth,
-    paddingBottom: "25%",
+    ...Platform.select({
+      ios: {
+        paddingBottom: "25%",
+      },
+      android: {
+        paddingBottom: 0,
+      },
+    }),
+
     height: windowHeight,
   },
   logininput: {
@@ -267,8 +275,8 @@ export const styles = StyleSheet.create({
   topHeader: {
     color: "#110580",
     fontSize: 20,
-    paddingBottom: '5%',
-    fontFamily: 'roboto-bold'
+    paddingBottom: "5%",
+    fontFamily: "roboto-bold",
   },
   headerTxt: {
     color: "#110580",
@@ -276,13 +284,13 @@ export const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginTop: 15,
     paddingLeft: 35,
-    fontFamily: 'roboto-medium'
+    fontFamily: "roboto-medium",
   },
   freqDropdown: {
     paddingVertical: 20,
     borderWidth: 0.5,
-    alignSelf: 'center',
-    width: '85%',
+    alignSelf: "center",
+    width: "85%",
     borderRadius: 30,
     marginVertical: 15,
     fontSize: 20,
@@ -291,41 +299,41 @@ export const styles = StyleSheet.create({
   freqPlaceholder: {
     fontSize: 16,
     color: theme.colors.primary,
-    fontFamily: 'roboto-medium',
+    fontFamily: "roboto-medium",
     paddingHorizontal: 8,
   },
   freqText: {
     fontSize: 16,
-    fontFamily: 'roboto-medium',
+    fontFamily: "roboto-medium",
     paddingHorizontal: 8,
     color: theme.colors.primary,
   },
   dayDropdown: {
     fontSize: 16,
-    fontFamily: 'roboto-medium',
+    fontFamily: "roboto-medium",
     paddingVertical: 20,
     paddingHorizontal: 20,
     borderWidth: 0.5,
-    alignSelf: 'center',
-    width: '85%',
+    alignSelf: "center",
+    width: "85%",
     borderRadius: 50,
-    marginBottom: 50
+    marginBottom: 50,
   },
   dropDown: {
-    width: '85%',
-    alignSelf: 'center',
+    width: "85%",
+    alignSelf: "center",
     fontSize: 10,
-    fontFamily: 'roboto-medium',
+    fontFamily: "roboto-medium",
     borderWidth: 0.5,
   },
   listItemDropdown: {
-    fontFamily: 'roboto-light',
+    fontFamily: "roboto-light",
     color: theme.colors.primary,
-    fontSize: 16
+    fontSize: 16,
   },
   badgeTextDropdown: {
     fontFamily: "roboto-regular",
     fontSize: 14,
-    color: theme.colors.text
-  }
+    color: theme.colors.text,
+  },
 });
