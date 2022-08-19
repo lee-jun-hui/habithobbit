@@ -173,14 +173,33 @@ const Dashboard = () => {
         <View style={styles.container3}>
           <View style={styles.box1}>
             <TouchableOpacity
-              style={[styles.button, , { backgroundColor: "#868AE0" }]}
+              style={[
+                styles.button,
+                ,
+                {
+                  backgroundColor:
+                    selectedDay === dayNumbers[0] ? "#868AE0" : "transparent",
+                },
+              ]}
               onPress={() => updateSelectedDay(dayNumbers[0])}
             >
-              <Text style={[{ color: "#FFFFFF" }, { fontWeight: "300" }]}>
+              <Text
+                style={
+                  selectedDay === dayNumbers[0]
+                    ? styles.selectedGeneralFontTitle
+                    : styles.generalFontTitle
+                }
+              >
                 {" "}
                 {getDayName()[0]}{" "}
               </Text>
-              <Text style={[{ color: "#FFFFFF" }, { fontWeight: "500" }]}>
+              <Text
+                style={
+                  selectedDay === dayNumbers[0]
+                    ? styles.selectedGeneralFont
+                    : styles.generalFont
+                }
+              >
                 {" "}
                 {getDayNumber()[0]}{" "}
               </Text>
@@ -188,47 +207,172 @@ const Dashboard = () => {
           </View>
           <View style={styles.box2}>
             <TouchableOpacity
-              style={styles.button}
+              style={[
+                styles.button,
+                ,
+                {
+                  backgroundColor:
+                    selectedDay === dayNumbers[1] ? "#868AE0" : "transparent",
+                },
+              ]}
               onPress={() => updateSelectedDay(dayNumbers[1])}
             >
-              <Text style={styles.generalFontTitle}> {getDayName()[1]} </Text>
-              <Text style={styles.generalFont}> {getDayNumber()[1]} </Text>
+              <Text
+                style={
+                  selectedDay === dayNumbers[1]
+                    ? styles.selectedGeneralFontTitle
+                    : styles.generalFontTitle
+                }
+              >
+                {" "}
+                {getDayName()[1]}{" "}
+              </Text>
+              <Text
+                style={
+                  selectedDay === dayNumbers[1]
+                    ? styles.selectedGeneralFont
+                    : styles.generalFont
+                }
+              >
+                {" "}
+                {getDayNumber()[1]}{" "}
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.box2}>
             <TouchableOpacity
-              style={styles.button}
+              style={[
+                styles.button,
+                ,
+                {
+                  backgroundColor:
+                    selectedDay === dayNumbers[2] ? "#868AE0" : "transparent",
+                },
+              ]}
               onPress={() => updateSelectedDay(dayNumbers[2])}
             >
-              <Text style={styles.generalFontTitle}> {getDayName()[2]} </Text>
-              <Text style={styles.generalFont}> {getDayNumber()[2]} </Text>
+              <Text
+                style={
+                  selectedDay === dayNumbers[2]
+                    ? styles.selectedGeneralFontTitle
+                    : styles.generalFontTitle
+                }
+              >
+                {" "}
+                {getDayName()[2]}{" "}
+              </Text>
+              <Text
+                style={
+                  selectedDay === dayNumbers[2]
+                    ? styles.selectedGeneralFont
+                    : styles.generalFont
+                }
+              >
+                {" "}
+                {getDayNumber()[2]}{" "}
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.box2}>
             <TouchableOpacity
-              style={styles.button}
+              style={[
+                styles.button,
+                ,
+                {
+                  backgroundColor:
+                    selectedDay === dayNumbers[3] ? "#868AE0" : "transparent",
+                },
+              ]}
               onPress={() => updateSelectedDay(dayNumbers[3])}
             >
-              <Text style={styles.generalFontTitle}> {getDayName()[3]} </Text>
-              <Text style={styles.generalFont}> {getDayNumber()[3]} </Text>
+              <Text
+                style={
+                  selectedDay === dayNumbers[3]
+                    ? styles.selectedGeneralFontTitle
+                    : styles.generalFontTitle
+                }
+              >
+                {" "}
+                {getDayName()[3]}{" "}
+              </Text>
+              <Text
+                style={
+                  selectedDay === dayNumbers[3]
+                    ? styles.selectedGeneralFont
+                    : styles.generalFont
+                }
+              >
+                {" "}
+                {getDayNumber()[3]}{" "}
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.box2}>
             <TouchableOpacity
-              style={styles.button}
+              style={[
+                styles.button,
+                ,
+                {
+                  backgroundColor:
+                    selectedDay === dayNumbers[4] ? "#868AE0" : "transparent",
+                },
+              ]}
               onPress={() => updateSelectedDay(dayNumbers[4])}
             >
-              <Text style={styles.generalFontTitle}> {getDayName()[4]} </Text>
-              <Text style={styles.generalFont}> {getDayNumber()[4]} </Text>
+              <Text
+                style={
+                  selectedDay === dayNumbers[4]
+                    ? styles.selectedGeneralFontTitle
+                    : styles.generalFontTitle
+                }
+              >
+                {" "}
+                {getDayName()[4]}{" "}
+              </Text>
+              <Text
+                style={
+                  selectedDay === dayNumbers[4]
+                    ? styles.selectedGeneralFont
+                    : styles.generalFont
+                }
+              >
+                {" "}
+                {getDayNumber()[4]}{" "}
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.box2}>
             <TouchableOpacity
-              style={styles.button}
+              style={[
+                styles.button,
+                ,
+                {
+                  backgroundColor:
+                    selectedDay === dayNumbers[5] ? "#868AE0" : "transparent",
+                },
+              ]}
               onPress={() => updateSelectedDay(dayNumbers[5])}
             >
-              <Text style={styles.generalFontTitle}> {getDayName()[5]} </Text>
-              <Text style={styles.generalFont}> {getDayNumber()[5]} </Text>
+              <Text
+                style={
+                  selectedDay === dayNumbers[5]
+                    ? styles.selectedGeneralFontTitle
+                    : styles.generalFontTitle
+                }
+              >
+                {" "}
+                {getDayName()[5]}{" "}
+              </Text>
+              <Text
+                style={
+                  selectedDay === dayNumbers[5]
+                    ? styles.selectedGeneralFont
+                    : styles.generalFont
+                }
+              >
+                {" "}
+                {getDayNumber()[5]}{" "}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -284,6 +428,14 @@ const styles = StyleSheet.create({
   },
   generalFont: {
     color: "#4E53BA",
+    fontWeight: "500",
+  },
+  selectedGeneralFontTitle: {
+    color: "#ffffff",
+    fontWeight: "300",
+  },
+  selectedGeneralFont: {
+    color: "#ffffff",
     fontWeight: "500",
   },
   button: {
