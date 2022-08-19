@@ -68,13 +68,13 @@ const Dashboard = () => {
   const [habits, setHabits] = useState([]);
   const [selectedDay, setSelectedDay] = useState(new Date().getDay());
   const dayToWeekdayMapping = [
+    "sun",
     "mon",
     "tues",
     "wed",
     "thurs",
     "fri",
     "sat",
-    "sun",
   ];
   const { authcontext } = useContext(AuthContext);
   const [dayNumbers, setDayNumbers] = useState([]);
@@ -121,11 +121,11 @@ const Dashboard = () => {
         const response = await axiosConn.get(url);
         const habits = response.data.data;
         const day = dayToWeekdayMapping[selectedDay];
+        console.log(day);
         const arrayOfHabits = [];
         habits.forEach((x) => {
           let frequency = x.frequency[0];
           let arrayOfObjects = Object.entries(frequency);
-          console.log(arrayOfObjects);
 
           arrayOfObjects.forEach((y) => {
             let habitObj = {};
@@ -145,6 +145,7 @@ const Dashboard = () => {
     fetchData();
   }, [selectedDay]);
 
+  console.log("day:", selectedDay);
   console.log(habits);
 
   return (
