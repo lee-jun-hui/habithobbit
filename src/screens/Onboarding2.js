@@ -15,8 +15,7 @@ export default function Onboarding2({ navigation }) {
       />
       <Header>Join Habit Groups</Header>
       <Paragraph>
-        Meet like-minded hobbits! Show each other what you are made of and
-        progess together!
+        Meet gaggle of like-minded hobbits, cheer'em on !!
       </Paragraph>
       <View style={styles.roundcontainer}>
         <View style={styles.lightround} />

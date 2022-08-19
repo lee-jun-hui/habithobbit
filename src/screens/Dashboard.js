@@ -494,6 +494,9 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 20,
     color: "#110580",
+    flex: 1,
+    flexWrap: "wrap",
+    marginRight: 10
   },
   exitContainer: {
     flex: 1,
