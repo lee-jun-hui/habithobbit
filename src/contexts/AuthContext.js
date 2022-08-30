@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
       try {
         setIsLoading(true);
         const response = await axios.post(
-          "https://habithobbit-server.herokuapp.com/api/v1/users/login",
+          "https://habithobbit-server.onrender.com/api/v1/users/login",
           loginCredentials
         );
         let userData = response.data.data;
