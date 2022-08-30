@@ -71,7 +71,7 @@ const Registration = ({ navigation }) => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "https://habithobbit-server.herokuapp.com/api/v1/users",
+        "https://habithobbit-server.onrender.com/api/v1/users",
         user
       );
       setIsLoading(false);
