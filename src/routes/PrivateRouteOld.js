@@ -4,10 +4,27 @@ import Icon from "react-native-vector-icons/AntDesign";
 import { StyleSheet, Text, View } from "react-native";
 import CreateHabit from "../screens/CreateHabit";
 import UserProfile from "../screens/UserProfile";
+
 import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
+
+// const UserPro = () => {
+//   return (
+//     <Stack.Navigator
+//       initialRouteName="User2"
+//       screenOptions={{
+//         headerShown: false,
+//       }}
+//     >
+//       <Stack.Screen name="User2" component={UserProfile} />
+//     </Stack.Navigator>
+//   );
+// };
+
+
+
+
 const Tab = createBottomTabNavigator();
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 const Tabs = () => {
   return (
@@ -70,7 +87,6 @@ const Tabs = () => {
         name="User"
         component={UserProfile}
         options={{
-          tabBarStyle: { display: 'none' },
           tabBarIcon: ({ focused, color }) => (
             <Icon name="user" size={26} color={color}></Icon>
           ),
@@ -79,6 +95,8 @@ const Tabs = () => {
     </Tab.Navigator>
   );
 };
+
+// export default Tabs;
 
 const PrivateRoute = () => {
   return (
