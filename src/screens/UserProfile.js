@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import { useState, useEffect } from "react";
 import {
     Alert,
@@ -17,7 +17,7 @@ import TextInput from "../components/loginTextInput";
 import Button from "../components/loginButton";
 import { styles } from "../styles/styles";
 import BackButton from "../components/loginBackButton";
-import { IconButton, Modal, Portal, Provider } from 'react-native-paper';
+import { IconButton, Modal, Portal, Provider } from "react-native-paper";
 import { Avatar } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import AnimatedLoader from "../components/AnimatedLoader";
@@ -29,7 +29,6 @@ const getBlob = async (fileUri) => {
 };
 
 const UserProfile = ({ navigation }) => {
-
     const [userData, setuserData] = useState({
         firstName: "",
         lastName: "",
@@ -63,7 +62,14 @@ const UserProfile = ({ navigation }) => {
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
-    const containerStyle = { backgroundColor: 'white', padding: 20, width: "95%", borderRadius: 20, alignSelf: "center", alignItems: 'center', };
+    const containerStyle = {
+        backgroundColor: "white",
+        padding: 20,
+        width: "95%",
+        borderRadius: 20,
+        alignSelf: "center",
+        alignItems: "center",
+    };
 
     useEffect(() => {
         setIsLoading(true);
@@ -106,10 +112,10 @@ const UserProfile = ({ navigation }) => {
                 }));
                 setunchanged(true);
                 setIsLoading(false);
-                if (lgender = "Male") {
-                    setismale(true)
-                } else if (lgender = "Female") {
-                    setismale(false)
+                if ((lgender = "Male")) {
+                    setismale(true);
+                } else if ((lgender = "Female")) {
+                    setismale(false);
                 };
             } catch (error) {
                 console.log(error.response);
@@ -131,8 +137,8 @@ const UserProfile = ({ navigation }) => {
             }));
         };
         const checkk = () => {
-            setunchanged(Boolean(userData === original))
-        }
+            setunchanged(Boolean(userData === original));
+        };
         prepare();
         checkk();
     }, [firstName, lastName, username, bio, gender, image]);
@@ -170,14 +176,17 @@ const UserProfile = ({ navigation }) => {
     const createUser = async () => {
         try {
             setIsLoading(true);
-            await uploadImage();
+            const s3Url = await uploadImage();
+            //   await console.log("image after uploadImage runs", image);
             const url = "/api/v1/users/profile";
-            const response = await axiosConn.put(url, userData);
+            //   await console.log("userData after uploadImage runs", userData);
+            const response = await axiosConn.put(url, {
+                ...userData,
+                avatarUrl: s3Url,
+            });
             if (response) {
-                Alert.alert("SUCCESS", "User Updated", [
-                    { text: "Ok" },
-                ]);
-            };
+                Alert.alert("SUCCESS", "User Updated", [{ text: "Ok" }]);
+            }
             setIsLoading(false);
             setunchanged(true);
         } catch (error) {
@@ -204,7 +213,7 @@ const UserProfile = ({ navigation }) => {
             //call uploadurl to get presigned url
             const response = await axiosConn.get(endPoint);
             const { url } = await response.data;
-            //post image to presigned url 
+            //post image to presigned url
             const imageBody = await getBlob(image);
             const uploadTos3 = await fetch(url, {
                 method: "PUT",
@@ -214,7 +223,13 @@ const UserProfile = ({ navigation }) => {
                 },
             });
             // console.log(JSON.stringify(uploadTos3));
-            setImage(url.split("?")[0]);
+            const s3Url = url.split("?")[0];
+            return s3Url;
+            //   await setuserData((prevUserData) => ({
+            //     ...prevUserData,
+            //     avatarUrl: s3Url,
+            //   }));
+            //   await console.log("userdata in uploadImage", userData);
         } catch (error) {
             console.log(error);
         }
@@ -222,11 +237,10 @@ const UserProfile = ({ navigation }) => {
 
     const checkchanged = () => {
         if (unchanged) {
-            navigation.replace("Base", { screen: "Home" })
+            navigation.replace("Base", { screen: "Home" });
         }
-        showModal()
+        showModal();
     };
-
 
     return (
         <Provider>
@@ -265,18 +279,18 @@ const UserProfile = ({ navigation }) => {
                         // containerColor="#110580"
                         size={25}
                         onPress={() => {
-                            pickImage()
+                            pickImage();
                         }}
                         disabled={disableform ? true : false}
                     />
-                    <Text style={styles.profileemail}>{(email)}</Text>
+                    <Text style={styles.profileemail}>{email}</Text>
                 </View>
                 <View style={styles.profilecontainer3}>
                     <ScrollView>
                         <View style={styles.profilecontainer2}>
                             <Text style={styles.headerTxt}>First Name</Text>
                             <TextInput
-                                placeholder={(firstName)}
+                                placeholder={firstName}
                                 onChangeText={(value) => {
                                     setfirstName(value);
                                 }}
@@ -285,7 +299,7 @@ const UserProfile = ({ navigation }) => {
                             />
                             <Text style={styles.headerTxt}>Last Name</Text>
                             <TextInput
-                                placeholder={(lastName)}
+                                placeholder={lastName}
                                 onChangeText={(value) => {
                                     setlastName(value);
                                 }}
@@ -294,7 +308,7 @@ const UserProfile = ({ navigation }) => {
                             />
                             <Text style={styles.headerTxt}>Username</Text>
                             <TextInput
-                                placeholder={(username)}
+                                placeholder={username}
                                 onChangeText={(value) => {
                                     setusername(value);
                                 }}
@@ -303,7 +317,7 @@ const UserProfile = ({ navigation }) => {
                             />
                             <Text style={styles.headerTxt}>Biography</Text>
                             <TextInput
-                                placeholder={(bio)}
+                                placeholder={bio}
                                 onChangeText={(value) => {
                                     setbio(value);
                                 }}
@@ -348,17 +362,18 @@ const UserProfile = ({ navigation }) => {
                         </View>
                     </ScrollView>
                     <Portal>
-                        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-                            <Image
-                                source={require("../assets/Wait.png")}
-                            />
+                        <Modal
+                            visible={visible}
+                            onDismiss={hideModal}
+                            contentContainerStyle={containerStyle}
+                        >
+                            <Image source={require("../assets/Wait.png")} />
                             <Text style={styles.popheader}>W...Wait!</Text>
-                            <Text style={styles.popTxt}>Did you want to save your changes before leaving?</Text>
+                            <Text style={styles.popTxt}>
+                                Did you want to save your changes before leaving?
+                            </Text>
                             <View style={{ flexDirection: "row" }}>
-                                <Button
-                                    style={styles.buttonNot}
-                                    onPress={hideModal}
-                                >
+                                <Button style={styles.buttonNot} onPress={hideModal}>
                                     Nahh
                                 </Button>
                                 <Button
@@ -368,8 +383,6 @@ const UserProfile = ({ navigation }) => {
                                     Sure!
                                 </Button>
                             </View>
-
-
                         </Modal>
                     </Portal>
                 </View>
@@ -381,12 +394,9 @@ const UserProfile = ({ navigation }) => {
 
 export default UserProfile;
 
-
 const styless = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#E8E8F7",
-
     },
-
 });
