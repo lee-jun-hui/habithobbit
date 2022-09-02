@@ -143,8 +143,6 @@ const UserProfile = ({ navigation }) => {
     checkk();
   }, [firstName, lastName, username, bio, gender, image]);
 
-  console.log("userData", userData);
-
   // useEffect(
   //     () =>
   //         navigation.addListener('beforeRemove', (e) => {
