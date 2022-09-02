@@ -357,7 +357,9 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-start",
     // paddingHorizontal: 20,
     width: "100%",
-    borderRadius: 30,
+    // borderRadius: 30,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   topHeader: {
     color: "#110580",
