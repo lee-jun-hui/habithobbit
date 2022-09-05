@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken } from "../utils/securestore.utils";
 
 const axiosConn = axios.create({
-  baseURL: "https://habithobbit-server.herokuapp.com",
+  baseURL: "https://habithobbit-server.onrender.com",
 });
 
 export default axiosConn;
