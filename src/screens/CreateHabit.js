@@ -178,9 +178,11 @@ const CreateHabit = ({ navigation }) => {
       if (response) {
         Alert.alert("SUCCESS", "Habit created!", [
           { text: "Ok", onPress: () => clearForm() },
-        ]);
+        ])
       }
     } catch (error) {
+      Alert.alert("Plese enter a habit");
+      //habitInputError();
       console.log(error.response.data);
     }
   };
